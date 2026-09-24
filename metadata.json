@@ -1,0 +1,6 @@
+{
+  "name": "Trucking Titan | Truck Dispatch Services Across USA",
+  "description": "Trucking Titan provides professional truck dispatch services across USA for carriers and owner-operators. Load finding, broker communication, rate negotiation, paperwork support. Call +1 9782263863.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
