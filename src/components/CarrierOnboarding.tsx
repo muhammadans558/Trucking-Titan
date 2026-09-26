@@ -28,7 +28,7 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
 
     try {
       const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbz1JT-TDMjpWAKMdmPSfV3M8uCEAsjFyLgJRUQ9-8EFZFDW923Tz54-rccgvULqsBn2/exec',
+        'https://formspree.io/f/mdekwpab',
         {
           method: 'POST',
           body: JSON.stringify(formData),
