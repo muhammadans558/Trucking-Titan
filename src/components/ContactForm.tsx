@@ -7,7 +7,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('YAHAN_APNA_WEB_APP_URL_DAAL_DEIN', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzVF-Uhd7Y6975L2Lu_w-SA5WzUi4W-nPLEgBlfNBvNgPnA8SRfGwEd0xziv69XTKgP/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -15,8 +15,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         body: JSON.stringify(formData),
       });
 
-      // Agar response theek ho ya na bhi ho (Google Apps Script ki redirection ki wajah se), 
-      // yeh ensure karega ke form successfully submit ho jaye aur data sheet mein chala jaye.
+      // Google Apps Script ki redirection ki wajah se request seedha chali jati hai
       setIsSubmitted(true);
     } catch (error) {
       console.error('Submission error:', error);
