@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, CheckCircle, Send, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, CheckCircle, Send, ShieldCheck } from 'lucide-react';
 import { EQUIPMENT_OPTIONS, COMPANY_PHONE, COMPANY_PHONE_TEL, COMPANY_EMAIL } from '../data/truckingData';
 
 interface FormState {
@@ -62,7 +62,7 @@ export const ContactForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
       return;
@@ -70,10 +70,27 @@ export const ContactForm: React.FC = () => {
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://formspree.io/f/mdekwpab', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert('Kuch masla ho gaya hai, dobara koshish karein.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Network error, please try again.');
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 600);
+    }
   };
 
   const handleReset = () => {
