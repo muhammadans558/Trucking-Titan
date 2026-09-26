@@ -1,4 +1,4 @@
-const handleSubmit = async (e: React.FormEvent) => {
+export const ContactForm: React.FC = () => {
     e.preventDefault();
     if (!validate()) {
       return;
