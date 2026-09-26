@@ -1,4 +1,4 @@
-export const ContactForm: React.FC = () => {
+import { ContactForm } from "./components/ContactForm";
     e.preventDefault();
     if (!validate()) {
       return;
