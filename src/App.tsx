@@ -17,29 +17,43 @@ import { FinalCta } from './components/FinalCta';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  const scrollToContact = () => {
-    const contactElement = document.getElementById('contact');
-    if (contactElement) {
-      contactElement.scrollIntoView({ behavior: 'smooth' });
+  const scrollToOnboarding = () => {
+    const target =
+      document.getElementById('carrier-onboarding') ||
+      document.getElementById('onboarding');
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
-  const scrollToServices = () => {
-    const servicesElement = document.getElementById('services');
-    if (servicesElement) {
-      servicesElement.scrollIntoView({ behavior: 'smooth' });
+  const scrollToContact = () => {
+    const target = document.getElementById('contact');
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-neutral-100 flex flex-col font-sans selection:bg-red-600 selection:text-white">
       {/* Sticky Top Navigation */}
-      <Header onGetStartedClick={scrollToContact} />
+      <Header onGetStartedClick={scrollToOnboarding} />
 
       <main className="flex-grow">
         {/* 1. Hero Section */}
         <Hero
-          onGetStarted={scrollToContact}
+          onGetStarted={scrollToOnboarding}
           onTalkToDispatcher={scrollToContact}
         />
 
@@ -47,7 +61,7 @@ export default function App() {
         <ValueProposition />
 
         {/* 3. Core Dispatch Services */}
-        <Services onSelectServiceCta={scrollToContact} />
+        <Services onSelectServiceCta={scrollToOnboarding} />
 
         {/* 4. Load Selection (Beyond Posted Rate & Console) */}
         <LoadSelection />
@@ -56,10 +70,10 @@ export default function App() {
         <WhoWeSupport />
 
         {/* 6. How It Works (4-Step Process) */}
-        <HowItWorks onStartProcess={scrollToContact} />
+        <HowItWorks onStartProcess={scrollToOnboarding} />
 
-        {/* 7. Carrier Onboarding (Call to Action) */}
-        <CarrierOnboarding onStartCarrierSetup={scrollToContact} />
+        {/* 7. Carrier Onboarding Form */}
+        <CarrierOnboarding onStartCarrierSetup={scrollToOnboarding} />
 
         {/* 8. Why Trucking Titan (Core Benefits) */}
         <WhyTruckingTitan />
@@ -73,15 +87,15 @@ export default function App() {
         {/* 11. Carrier Pain Points Comparison */}
         <PainPointsComparison />
 
-        {/* 12. Contact / Lead Form ("Let's Talk About Your Truck") */}
-        <ContactForm />
+        {/* 12. Contact / Lead Hub ("Let's Talk About Your Truck") */}
+        <ContactForm onNavigateToOnboarding={scrollToOnboarding} />
 
         {/* 13. FAQ Accordion */}
         <FaqSection />
 
         {/* 14. Final Strong CTA */}
         <FinalCta
-          onGetStarted={scrollToContact}
+          onGetStarted={scrollToOnboarding}
           onContactUs={scrollToContact}
         />
       </main>

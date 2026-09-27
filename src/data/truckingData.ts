@@ -58,12 +58,11 @@ export const FAQ_DATA: FaqItem[] = [
 export const EQUIPMENT_OPTIONS = [
   'Dry Van',
   'Reefer',
-  'Flat Bed',
+  'Flatbed',
   'Step Deck',
   'Box Truck',
-  'Flat Bed Hot Shot',
+  'Flatbed Hotshot',
   'Power Only',
-  'Other Equipment'
 ];
 
 export const EQUIPMENT_DETAILS: EquipmentType[] = [

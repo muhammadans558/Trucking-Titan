@@ -9,7 +9,7 @@ import {
   ArrowRight,
   Phone,
 } from 'lucide-react';
-import { COMPANY_PHONE, COMPANY_PHONE_TEL } from '../data/truckingData';
+import { COMPANY_PHONE_TEL } from '../data/truckingData';
 
 interface ServicesProps {
   onSelectServiceCta?: () => void;
@@ -142,7 +142,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceCta }) => {
               className="inline-flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 text-white text-xs sm:text-sm font-bold uppercase px-4 py-2.5 rounded-sm hover:border-red-500 transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-red-500" />
-              <span>{COMPANY_PHONE}</span>
+              <span>Talk to a Dispatcher</span>
             </a>
             <button
               onClick={onSelectServiceCta}
