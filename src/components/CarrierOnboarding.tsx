@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Lock, Phone, Loader2 } from 'lucide-react';
-import { COMPANY_PHONE_TEL } from '../data/truckingData';
+import { ArrowRight, CheckCircle2, Lock, Phone, Loader2, AlertCircle } from 'lucide-react';
+import { COMPANY_PHONE_TEL, EQUIPMENT_OPTIONS } from '../data/truckingData';
 
 interface CarrierOnboardingProps {
-  onStartCarrierSetup: () => void;
+  onStartCarrierSetup?: () => void;
 }
 
 export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCarrierSetup }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [formDataState, setFormDataState] = useState({
     fullName: '',
     companyName: '',
@@ -17,161 +15,307 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
     equipmentType: 'Dry Van',
     numberOfTrucks: '1-3 trucks',
     preferredLanes: '',
-    message: ''
+    mcNumber: '',
+    dotNumber: '',
+    message: '',
   });
+
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormDataState((prev) => ({ ...prev, [name]: value }));
+    if (validationError) {
+      setValidationError(null);
+    }
+    if (submitError) {
+      setSubmitError(null);
+    }
+  };
+
+  const validateForm = () => {
+    if (!formDataState.fullName.trim()) return 'Full Name is required';
+    if (!formDataState.companyName.trim()) return 'Company Name is required';
+    if (!formDataState.phoneNumber.trim()) return 'Phone Number is required';
+    if (!formDataState.emailAddress.trim()) return 'Email Address is required';
+    if (!/\S+@\S+\.\S+/.test(formDataState.emailAddress)) return 'Please enter a valid email address';
+    if (!formDataState.equipmentType.trim()) return 'Equipment Type is required';
+    if (!formDataState.numberOfTrucks.trim()) return 'Number of Trucks is required';
+    if (!formDataState.preferredLanes.trim()) return 'Preferred Lanes / Regions is required';
+    if (!formDataState.mcNumber.trim()) return 'MC Number is required';
+    if (!formDataState.dotNumber.trim()) return 'DOT Number is required';
+    if (!formDataState.message.trim()) return 'Message / Special Requirements is required';
+    return null;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const errorMsg = validateForm();
+    if (errorMsg) {
+      setValidationError(errorMsg);
+      return;
+    }
+
+    setValidationError(null);
+    setSubmitError(null);
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch('https://formspree.io/f/mdekwpab', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          fullName: formDataState.fullName,
-          companyName: formDataState.companyName,
-          phoneNumber: formDataState.phoneNumber,
-          emailAddress: formDataState.emailAddress,
-          equipmentType: formDataState.equipmentType,
-          numberOfTrucks: formDataState.numberOfTrucks,
-          preferredLanes: formDataState.preferredLanes,
-          message: formDataState.message
-        }),
-      });
+    const now = new Date();
+    const payload = {
+      fullName: formDataState.fullName.trim(),
+      companyName: formDataState.companyName.trim(),
+      phoneNumber: formDataState.phoneNumber.trim(),
+      emailAddress: formDataState.emailAddress.trim(),
+      equipmentType: formDataState.equipmentType,
+      numberOfTrucks: formDataState.numberOfTrucks,
+      preferredLanes: formDataState.preferredLanes.trim(),
+      mcNumber: formDataState.mcNumber.trim(),
+      dotNumber: formDataState.dotNumber.trim(),
+      message: formDataState.message.trim(),
+      // Also provide Title Case keys for broad Google Sheet header compatibility
+      'Full Name': formDataState.fullName.trim(),
+      'Company Name': formDataState.companyName.trim(),
+      'Phone Number': formDataState.phoneNumber.trim(),
+      'Email Address': formDataState.emailAddress.trim(),
+      'Equipment Type': formDataState.equipmentType,
+      'Number of Trucks': formDataState.numberOfTrucks,
+      'Preferred Lanes / Regions': formDataState.preferredLanes.trim(),
+      'MC Number': formDataState.mcNumber.trim(),
+      'DOT Number': formDataState.dotNumber.trim(),
+      'Message / Special Requirements': formDataState.message.trim(),
+      submissionDate: now.toLocaleString('en-US', { timeZone: 'America/New_York' }),
+      timestamp: now.toISOString(),
+    };
 
-      if (response.ok) {
-        setSubmitted(true);
+    try {
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbzVF-Uhd7Y6975L2Lu_w-SA5WzUi4W-nPLEgBlfNBvNgPnA8SRfGwEd0xziv69XTKgP/exec',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      setSubmitted(true);
+      if (onStartCarrierSetup) {
         onStartCarrierSetup();
-      } else {
-        alert('Kuch masla ho gaya hai, bara-e-meharbani dobara koshish karein.');
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Network ka masla hai, dobara koshish karein.');
+    } catch (err) {
+      console.error('Error submitting carrier onboarding form:', err);
+      setSubmitError('Something went wrong while submitting your information. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleReset = () => {
+    setSubmitted(false);
+    setSubmitError(null);
+    setValidationError(null);
+    setFormDataState({
+      fullName: '',
+      companyName: '',
+      phoneNumber: '',
+      emailAddress: '',
+      equipmentType: 'Dry Van',
+      numberOfTrucks: '1-3 trucks',
+      preferredLanes: '',
+      mcNumber: '',
+      dotNumber: '',
+      message: '',
+    });
+  };
+
   return (
-    <section id="onboarding" className="py-20 bg-neutral-950 text-white">
+    <section id="carrier-onboarding" className="py-20 bg-neutral-950 text-white relative">
+      {/* Target anchor fallback for #onboarding links */}
+      <div id="onboarding" className="absolute -top-20 left-0 w-0 h-0" aria-hidden="true" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column: Contact & Dispatch Desk Information */}
           <div>
-            <span className="text-red-600 font-semibold uppercase tracking-wider text-sm">Get Connected With Our Team</span>
-            <h2 className="text-3xl sm:text-4xl font-black mt-2 mb-6">LET'S TALK ABOUT <span className="text-red-600">YOUR TRUCK.</span></h2>
-            <p className="text-neutral-400 mb-8">
-              Whether you are an owner-operator wanting to spend less time dialing brokers, or a small fleet seeking consistent dispatch coordination, we're ready to review your equipment and preferred lanes.
+            <span className="text-red-600 font-semibold uppercase tracking-wider text-sm">
+              Get Connected With Our Team
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black mt-2 mb-6">
+              LET'S TALK ABOUT <span className="text-red-600">YOUR TRUCK.</span>
+            </h2>
+            <p className="text-neutral-400 mb-8 leading-relaxed">
+              Whether you are an owner-operator wanting to spend less time dialing brokers, or a
+              small fleet seeking consistent dispatch coordination, we're ready to review your
+              equipment and preferred lanes.
             </p>
 
             <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl mb-6">
-              <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold block mb-1">Direct Dispatch Desk</span>
-              <a href={`tel:${COMPANY_PHONE_TEL}`} className="text-xl font-bold flex items-center gap-2 hover:text-red-600 transition-colors">
+              <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
+                Direct Dispatch Desk
+              </span>
+              <a
+                href={`tel:${COMPANY_PHONE_TEL}`}
+                className="text-xl font-bold flex items-center gap-2 hover:text-red-600 transition-colors"
+              >
                 <Phone className="w-5 h-5 text-red-600" />
                 Call Dispatch Desk
               </a>
-              <span className="text-xs text-neutral-500 mt-1 block">Available for US Carriers & Drivers</span>
+              <span className="text-xs text-neutral-500 mt-1 block">
+                Available for US Carriers & Drivers
+              </span>
             </div>
 
             <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl mb-6">
-              <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold block mb-1">Direct Email Inquiries</span>
-              <a href="mailto:contact.truckingtitan@gmail.com" className="text-lg font-bold hover:text-red-600 transition-colors">
+              <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold block mb-1">
+                Direct Email Inquiries
+              </span>
+              <a
+                href="mailto:contact.truckingtitan@gmail.com"
+                className="text-lg font-bold hover:text-red-600 transition-colors"
+              >
                 contact.truckingtitan@gmail.com
               </a>
-              <span className="text-xs text-neutral-500 mt-1 block">Official Carrier Support Mail</span>
+              <span className="text-xs text-neutral-500 mt-1 block">
+                Official Carrier Support Mail
+              </span>
             </div>
 
             <div className="border border-red-900/40 bg-red-950/20 p-4 rounded-xl flex items-start gap-3 text-sm text-neutral-300">
               <Lock className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-              <p>Privacy guarantee: Your information is strictly used for dispatch consultation. We never distribute carrier contact details.</p>
+              <p>
+                Privacy guarantee: Your information is strictly used for dispatch consultation.
+                We never distribute carrier contact details.
+              </p>
             </div>
           </div>
 
+          {/* Right Column: Original Two-Column Form Layout with MC & DOT */}
           <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-2xl shadow-xl">
             {!submitted ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="text-2xl font-bold mb-2">Carrier Quick Setup</h3>
-                <p className="text-neutral-400 text-sm mb-6">Fill out your fleet details below and our team will reach out immediately.</p>
-
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    required
-                    value={formDataState.fullName}
-                    onChange={(e) => setFormDataState({...formDataState, fullName: e.target.value})}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
-                    placeholder="John Doe"
-                  />
+                  <h3 className="text-2xl font-bold mb-2">Carrier Quick Setup</h3>
+                  <p className="text-neutral-400 text-sm mb-4">
+                    Fill out your fleet details below and our team will reach out immediately.
+                  </p>
                 </div>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Company Name</label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    required
-                    value={formDataState.companyName}
-                    onChange={(e) => setFormDataState({...formDataState, companyName: e.target.value})}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
-                    placeholder="Titan Logistics LLC"
-                  />
-                </div>
+                {validationError && (
+                  <div className="p-3 bg-red-950/50 border border-red-600/60 rounded-lg flex items-center gap-2.5 text-red-400 text-xs font-medium">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                    <span>{validationError}</span>
+                  </div>
+                )}
 
+                {submitError && (
+                  <div className="p-3 bg-red-950/50 border border-red-600/60 rounded-lg flex items-center gap-2.5 text-red-400 text-xs font-medium">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                {/* Row 1: Full Name & Company Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Phone Number</label>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Full Name <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      required
+                      value={formDataState.fullName}
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                      placeholder="John Doe"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Company Name <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      required
+                      value={formDataState.companyName}
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                      placeholder="Titan Logistics LLC"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2: Phone Number & Email Address */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Phone Number <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
                     <input
                       type="tel"
                       name="phoneNumber"
                       required
                       value={formDataState.phoneNumber}
-                      onChange={(e) => setFormDataState({...formDataState, phoneNumber: e.target.value})}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Email Address</label>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Email Address <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
                     <input
                       type="email"
                       name="emailAddress"
                       required
                       value={formDataState.emailAddress}
-                      onChange={(e) => setFormDataState({...formDataState, emailAddress: e.target.value})}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
                       placeholder="john@example.com"
                     />
                   </div>
                 </div>
 
+                {/* Row 3: Equipment Type & Number of Trucks */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Equipment Type</label>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Equipment Type <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
                     <select
                       name="equipmentType"
+                      required
                       value={formDataState.equipmentType}
-                      onChange={(e) => setFormDataState({...formDataState, equipmentType: e.target.value})}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition-colors"
                     >
-                      <option value="Dry Van">Dry Van</option>
-                      <option value="Reefer">Reefer</option>
-                      <option value="Flatbed">Flatbed</option>
-                      <option value="Power Only">Power Only</option>
+                      {EQUIPMENT_OPTIONS.map((eq) => (
+                        <option key={eq} value={eq}>
+                          {eq}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Number of Trucks</label>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      Number of Trucks <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
                     <select
                       name="numberOfTrucks"
+                      required
                       value={formDataState.numberOfTrucks}
-                      onChange={(e) => setFormDataState({...formDataState, numberOfTrucks: e.target.value})}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition-colors"
                     >
                       <option value="1-3 trucks">1-3 trucks</option>
                       <option value="4-10 trucks">4-10 trucks</option>
@@ -180,56 +324,100 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
                   </div>
                 </div>
 
+                {/* Row 4: Preferred Lanes / Regions */}
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Preferred Lanes</label>
+                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                    Preferred Lanes / Regions <span className="text-red-500 font-bold ml-0.5">*</span>
+                  </label>
                   <input
                     type="text"
                     name="preferredLanes"
+                    required
                     value={formDataState.preferredLanes}
-                    onChange={(e) => setFormDataState({...formDataState, preferredLanes: e.target.value})}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
-                    placeholder="e.g., Midwest, Texas, Southeast"
+                    onChange={handleChange}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                    placeholder="e.g., Midwest, Texas, Southeast, Nationwide"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">Additional Notes</label>
-                  <textarea
-                    name="message"
-                    rows={3}
-                    value={formDataState.message}
-                    onChange={(e) => setFormDataState({...formDataState, message: e.target.value})}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600"
-                    placeholder="Tell us about your dispatch expectations..."
-                  ></textarea>
+                {/* Row 5: MC Number & DOT Number */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      MC Number <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="mcNumber"
+                      required
+                      value={formDataState.mcNumber}
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                      placeholder="MC-123456"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                      DOT Number <span className="text-red-500 font-bold ml-0.5">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="dotNumber"
+                      required
+                      value={formDataState.dotNumber}
+                      onChange={handleChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                      placeholder="USDOT-765432"
+                    />
+                  </div>
                 </div>
 
+                {/* Row 6: Message / Special Requirements (Additional Notes) */}
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-neutral-400 mb-1">
+                    Message / Special Requirements <span className="text-red-500 font-bold ml-0.5">*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    required
+                    rows={3}
+                    value={formDataState.message}
+                    onChange={handleChange}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
+                    placeholder="Tell us about your equipment, preferred freight types, or dispatch requirements..."
+                  />
+                </div>
+
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-900/30"
+                  className="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/40 uppercase tracking-wider text-sm"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Submitting...
+                      <span>Submitting Carrier Data...</span>
                     </>
                   ) : (
                     <>
-                      Start Carrier Setup
+                      <span>Start Carrier Setup</span>
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
                 </button>
               </form>
             ) : (
-              <div className="text-center py-12">
-                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Request Received!</h3>
-                <p className="text-neutral-400 mb-6">Thank you, {formDataState.fullName}. Your carrier details have been received successfully.</p>
+              <div className="text-center py-10 px-4">
+                <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold mb-2 text-white">Thank you!</h3>
+                <p className="text-neutral-300 mb-6 text-sm max-w-md mx-auto leading-relaxed">
+                  Thank you! Your information has been submitted successfully. Our team will contact you soon.
+                </p>
                 <button
-                  onClick={() => setSubmitted(false)}
-                  className="bg-neutral-800 hover:bg-neutral-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors"
+                  type="button"
+                  onClick={handleReset}
+                  className="bg-neutral-800 hover:bg-neutral-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Submit Another Request
                 </button>
