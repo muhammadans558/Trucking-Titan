@@ -86,7 +86,7 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
 
     try {
       await fetch(
-        'https://script.google.com/macros/s/AKfycbzVF-Uhd7Y6975L2Lu_w-SA5WzUi4W-nPLEgBlfNBvNgPnA8SRfGwEd0xziv69XTKgP/exec',
+        'https://script.google.com/macros/s/AKfycbyxS5sVq7vqe_aRu_D0XxTlDN4WQfwsIW-ORdTvoR1sKDRzZIcsq30V4Xs_SU8d7kiz/exec',
         {
           method: 'POST',
           mode: 'no-cors',
