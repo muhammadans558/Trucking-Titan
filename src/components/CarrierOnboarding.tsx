@@ -65,7 +65,6 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
     setSubmitError(null);
     setIsSubmitting(true);
 
-    const now = new Date();
     const payload = {
       fullName: formDataState.fullName.trim(),
       companyName: formDataState.companyName.trim(),
@@ -77,19 +76,6 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
       mcNumber: formDataState.mcNumber.trim(),
       dotNumber: formDataState.dotNumber.trim(),
       message: formDataState.message.trim(),
-      // Also provide Title Case keys for broad Google Sheet header compatibility
-      'Full Name': formDataState.fullName.trim(),
-      'Company Name': formDataState.companyName.trim(),
-      'Phone Number': formDataState.phoneNumber.trim(),
-      'Email Address': formDataState.emailAddress.trim(),
-      'Equipment Type': formDataState.equipmentType,
-      'Number of Trucks': formDataState.numberOfTrucks,
-      'Preferred Lanes / Regions': formDataState.preferredLanes.trim(),
-      'MC Number': formDataState.mcNumber.trim(),
-      'DOT Number': formDataState.dotNumber.trim(),
-      'Message / Special Requirements': formDataState.message.trim(),
-      submissionDate: now.toLocaleString('en-US', { timeZone: 'America/New_York' }),
-      timestamp: now.toISOString(),
     };
 
     try {
@@ -353,7 +339,7 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
                       value={formDataState.mcNumber}
                       onChange={handleChange}
                       className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
-                      placeholder="MC-123456"
+                      placeholder="123456"
                     />
                   </div>
                   <div>
@@ -367,7 +353,7 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
                       value={formDataState.dotNumber}
                       onChange={handleChange}
                       className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-600 focus:outline-none focus:border-red-600 transition-colors"
-                      placeholder="USDOT-765432"
+                      placeholder="789012"
                     />
                   </div>
                 </div>
