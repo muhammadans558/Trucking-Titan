@@ -24,7 +24,7 @@ export const AboutSection: React.FC = () => {
             </p>
 
             <p className="mt-3 text-sm sm:text-base text-neutral-300 leading-relaxed font-normal">
-              Trucking Titan provides dedicated truck dispatching support for motor carriers and owner-operators across the USA. We handle the time-consuming administrative work—searching for suitable loads, negotiating with freight brokers, verifying rate confirmations, and coordinating schedule logistics—so that you can stay focused on driving safely and operating your truck.
+              Trucking Titan provides dedicated truck dispatching support for motor carriers and owner-operators across the USA. We handle the time-consuming administrative work of searching for suitable loads, negotiating with freight brokers, verifying rate confirmations, and coordinating schedule logistics so that you can stay focused on driving safely and operating your truck.
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">

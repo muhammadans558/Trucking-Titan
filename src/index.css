@@ -27,3 +27,106 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #dc2626;
 }
+
+/* Subtle Professional Animations */
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroImageFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-hero-fade-up {
+  opacity: 0;
+  animation: heroFadeUp 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-hero-image {
+  opacity: 0;
+  animation: heroImageFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.delay-75 {
+  animation-delay: 75ms;
+}
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-120 {
+  animation-delay: 120ms;
+}
+.delay-150 {
+  animation-delay: 150ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-220 {
+  animation-delay: 220ms;
+}
+.delay-250 {
+  animation-delay: 250ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-380 {
+  animation-delay: 380ms;
+}
+.delay-460 {
+  animation-delay: 460ms;
+}
+
+/* Button & card micro-interactions */
+.btn-subtle-hover {
+  transition: transform 0.22s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.22s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.22s ease, border-color 0.22s ease;
+}
+.btn-subtle-hover:hover {
+  transform: translateY(-1.5px);
+}
+.btn-subtle-hover:active {
+  transform: translateY(0);
+}
+
+.card-subtle-hover {
+  transition: transform 0.24s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.24s ease, box-shadow 0.24s ease;
+}
+.card-subtle-hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Respect Accessibility Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .animate-hero-fade-up,
+  .animate-hero-image {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .btn-subtle-hover:hover,
+  .card-subtle-hover:hover {
+    transform: none !important;
+  }
+}

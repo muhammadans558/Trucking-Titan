@@ -10,6 +10,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { COMPANY_PHONE_TEL } from '../data/truckingData';
+import { RevealOnScroll } from './RevealOnScroll';
 
 interface ServicesProps {
   onSelectServiceCta?: () => void;
@@ -85,43 +86,42 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceCta }) => {
           {services.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div
-                key={item.title}
-                className="bg-[#111115] border border-neutral-800/90 hover:border-red-600/70 p-6 sm:p-7 rounded-sm flex flex-col justify-between transition-all duration-200 group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-11 h-11 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600 transition-all duration-200">
-                      <Icon className="w-5 h-5" />
+              <RevealOnScroll key={item.title} delay={idx * 75} className="h-full">
+                <div className="bg-[#111115] border border-neutral-800/90 hover:border-red-600/70 p-6 sm:p-7 rounded-sm flex flex-col justify-between transition-all duration-200 group h-full hover:-translate-y-1">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600 transition-all duration-200">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="text-xs font-heading font-bold text-neutral-400 tracking-wider">
+                        SERVICE / 0{idx + 1}
+                      </span>
                     </div>
-                    <span className="text-xs font-heading font-bold text-neutral-400 tracking-wider">
-                      SERVICE / 0{idx + 1}
-                    </span>
+
+                    <h3 className="text-lg sm:text-xl font-heading font-bold uppercase text-white tracking-wide mb-2.5 group-hover:text-red-400 transition-colors">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-sm text-neutral-300 leading-relaxed mb-5">
+                      {item.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-heading font-bold uppercase text-white tracking-wide mb-2.5 group-hover:text-red-400 transition-colors">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-neutral-300 leading-relaxed mb-5">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-neutral-800/80">
-                  <div className="text-xs uppercase tracking-wider text-neutral-400 font-semibold mb-2">
-                    Scope of Support:
+                  <div className="pt-4 border-t border-neutral-800/80">
+                    <div className="text-xs uppercase tracking-wider text-neutral-400 font-semibold mb-2">
+                      Scope of Support:
+                    </div>
+                    <ul className="space-y-1.5">
+                      {item.deliverables.map((deliv) => (
+                        <li key={deliv} className="text-xs sm:text-sm text-neutral-300 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 bg-red-600 rounded-full shrink-0" />
+                          <span>{deliv}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-1.5">
-                    {item.deliverables.map((deliv) => (
-                      <li key={deliv} className="text-xs sm:text-sm text-neutral-300 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-red-600 rounded-full shrink-0" />
-                        <span>{deliv}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-              </div>
+              </RevealOnScroll>
             );
           })}
         </div>
@@ -139,14 +139,14 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceCta }) => {
           <div className="flex items-center gap-3 shrink-0">
             <a
               href={COMPANY_PHONE_TEL}
-              className="inline-flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 text-white text-xs sm:text-sm font-bold uppercase px-4 py-2.5 rounded-sm hover:border-red-500 transition-colors"
+              className="inline-flex items-center gap-1.5 bg-neutral-900 border border-neutral-700 text-white text-xs sm:text-sm font-bold uppercase px-4 py-2.5 rounded-sm hover:border-red-500 transition-all duration-150 btn-subtle-hover"
             >
               <Phone className="w-3.5 h-3.5 text-red-500" />
               <span>Talk to a Dispatcher</span>
             </a>
             <button
               onClick={onSelectServiceCta}
-              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold uppercase tracking-wider px-5 py-2.5 rounded-sm transition-colors duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs sm:text-sm font-bold uppercase tracking-wider px-5 py-2.5 rounded-sm transition-all duration-150 cursor-pointer shadow-md shadow-red-950/40 btn-subtle-hover"
             >
               <span>Inquire Now</span>
               <ArrowRight className="w-3.5 h-3.5" />

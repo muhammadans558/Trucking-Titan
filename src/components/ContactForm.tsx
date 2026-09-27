@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, Mail, Clock, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
 import { COMPANY_PHONE, COMPANY_PHONE_TEL, COMPANY_EMAIL } from '../data/truckingData';
+import { RevealOnScroll } from './RevealOnScroll';
 
 interface ContactFormProps {
   onNavigateToOnboarding?: () => void;
@@ -29,58 +30,64 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onNavigateToOnboarding
         {/* Dispatch Contact Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {/* Card 1: Direct Phone */}
-          <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all">
-            <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
-              <Phone className="w-6 h-6" />
+          <RevealOnScroll delay={0} className="h-full">
+            <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all duration-200 h-full card-subtle-hover flex flex-col justify-start">
+              <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
+                <Phone className="w-6 h-6" />
+              </div>
+              <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
+                Direct Dispatch Desk
+              </span>
+              <a
+                href={COMPANY_PHONE_TEL}
+                className="text-xl font-bold text-white hover:text-red-500 transition-colors block mb-2"
+              >
+                {COMPANY_PHONE}
+              </a>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Direct line for active drivers, owner-operators, and carrier partners across the USA.
+              </p>
             </div>
-            <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
-              Direct Dispatch Desk
-            </span>
-            <a
-              href={COMPANY_PHONE_TEL}
-              className="text-xl font-bold text-white hover:text-red-500 transition-colors block mb-2"
-            >
-              {COMPANY_PHONE}
-            </a>
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              Direct line for active drivers, owner-operators, and carrier partners across the USA.
-            </p>
-          </div>
+          </RevealOnScroll>
 
           {/* Card 2: Email Support */}
-          <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all">
-            <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
-              <Mail className="w-6 h-6" />
+          <RevealOnScroll delay={80} className="h-full">
+            <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all duration-200 h-full card-subtle-hover flex flex-col justify-start">
+              <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
+                <Mail className="w-6 h-6" />
+              </div>
+              <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
+                Official Carrier Email
+              </span>
+              <a
+                href={`mailto:${COMPANY_EMAIL}`}
+                className="text-base font-bold text-white hover:text-red-500 transition-colors block mb-2 break-all"
+              >
+                {COMPANY_EMAIL}
+              </a>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Send rate confirmations, carrier packets, and dispatch inquiries.
+              </p>
             </div>
-            <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
-              Official Carrier Email
-            </span>
-            <a
-              href={`mailto:${COMPANY_EMAIL}`}
-              className="text-base font-bold text-white hover:text-red-500 transition-colors block mb-2 break-all"
-            >
-              {COMPANY_EMAIL}
-            </a>
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              Send rate confirmations, carrier packets, and dispatch inquiries.
-            </p>
-          </div>
+          </RevealOnScroll>
 
           {/* Card 3: Operating Scope */}
-          <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all">
-            <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
-              <Clock className="w-6 h-6" />
+          <RevealOnScroll delay={160} className="h-full">
+            <div className="bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 p-6 rounded-2xl transition-all duration-200 h-full card-subtle-hover flex flex-col justify-start">
+              <div className="w-12 h-12 bg-red-600/10 border border-red-500/30 rounded-xl flex items-center justify-center mb-4 text-red-500">
+                <Clock className="w-6 h-6" />
+              </div>
+              <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
+                Coverage & Availability
+              </span>
+              <div className="text-base font-bold text-white mb-2">
+                48 Continental US States
+              </div>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Full nationwide dispatch coordination and load matching support.
+              </p>
             </div>
-            <span className="text-xs uppercase tracking-wider text-neutral-400 font-semibold block mb-1">
-              Coverage & Availability
-            </span>
-            <div className="text-base font-bold text-white mb-2">
-              48 Continental US States
-            </div>
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              Full nationwide dispatch coordination and load matching support.
-            </p>
-          </div>
+          </RevealOnScroll>
         </div>
 
         {/* Onboarding Callout Panel navigating to the ONE Carrier Onboarding Form */}
@@ -102,7 +109,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onNavigateToOnboarding
             <button
               type="button"
               onClick={onNavigateToOnboarding}
-              className="shrink-0 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold py-3.5 px-7 rounded-xl transition-all flex items-center gap-2.5 uppercase tracking-wider text-xs shadow-lg shadow-red-950/40 cursor-pointer"
+              className="shrink-0 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold py-3.5 px-7 rounded-xl transition-all duration-150 flex items-center gap-2.5 uppercase tracking-wider text-xs shadow-lg shadow-red-950/40 cursor-pointer btn-subtle-hover"
             >
               <span>Go to Carrier Onboarding Form</span>
               <ArrowRight className="w-4 h-4" />

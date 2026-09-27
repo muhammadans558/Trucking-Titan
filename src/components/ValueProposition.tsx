@@ -1,5 +1,6 @@
 import React from 'react';
 import { Clock, Search, PhoneForwarded, FileText } from 'lucide-react';
+import { RevealOnScroll } from './RevealOnScroll';
 
 export const ValueProposition: React.FC = () => {
   const valueItems = [
@@ -41,7 +42,7 @@ export const ValueProposition: React.FC = () => {
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed font-normal">
-            For owner-operators and small fleet owners, running a trucking business shouldn’t mean spending your off-hours trapped in phone calls and rate confirmations. Trucking Titan takes on the administrative load—finding suitable freight, communicating with brokers, evaluating loads, negotiating rates, organizing paperwork, and coordinating dispatches—so your wheels keep turning and your focus stays on the road.
+            For owner-operators and small fleet owners, running a trucking business shouldn’t mean spending your off-hours trapped in phone calls and rate confirmations. Trucking Titan takes on the administrative load by finding suitable freight, communicating with brokers, evaluating loads, negotiating rates, organizing paperwork, and coordinating dispatches so your wheels keep turning and your focus stays on the road.
           </p>
         </div>
 
@@ -50,26 +51,25 @@ export const ValueProposition: React.FC = () => {
           {valueItems.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div
-                key={item.title}
-                className="bg-[#121217] border border-neutral-800 p-6 rounded-sm relative group hover:border-red-600/60 transition-colors duration-200"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:text-red-400 group-hover:border-red-500/50 transition-colors">
-                    <Icon className="w-5 h-5" />
+              <RevealOnScroll key={item.title} delay={index * 75} className="h-full">
+                <div className="bg-[#121217] border border-neutral-800 p-6 rounded-sm relative group hover:border-red-600/60 transition-all duration-200 h-full card-subtle-hover flex flex-col justify-start">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:text-red-400 group-hover:border-red-500/50 transition-colors">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="font-heading text-xs font-bold text-neutral-400">
+                      0{index + 1}
+                    </span>
                   </div>
-                  <span className="font-heading text-xs font-bold text-neutral-400">
-                    0{index + 1}
-                  </span>
-                </div>
 
-                <h3 className="font-heading text-base sm:text-lg font-bold uppercase text-white tracking-wide mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-neutral-400 leading-normal">
-                  {item.desc}
-                </p>
-              </div>
+                  <h3 className="font-heading text-base sm:text-lg font-bold uppercase text-white tracking-wide mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-neutral-400 leading-normal">
+                    {item.desc}
+                  </p>
+                </div>
+              </RevealOnScroll>
             );
           })}
         </div>
@@ -88,3 +88,4 @@ export const ValueProposition: React.FC = () => {
     </section>
   );
 };
+

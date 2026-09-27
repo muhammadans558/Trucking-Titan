@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Logo } from './Logo';
-import { Menu, X, Mail, ArrowRight } from 'lucide-react';
+import { Menu, X, Mail, ArrowRight, Phone } from 'lucide-react';
 import { COMPANY_EMAIL } from '../data/truckingData';
 
 interface HeaderProps {
@@ -83,19 +83,27 @@ export const Header: React.FC<HeaderProps> = ({ onGetStartedClick }) => {
           <div className="hidden sm:flex items-center gap-4">
             <button
               onClick={onGetStartedClick}
-              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold font-heading uppercase tracking-wider px-5 py-2.5 rounded-sm transition-all duration-200 shadow-md shadow-red-950/50 cursor-pointer"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold font-heading uppercase tracking-wider px-5 py-2.5 rounded-sm transition-all duration-200 shadow-md shadow-red-950/50 cursor-pointer btn-subtle-hover"
             >
               <span>Get Started</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Mobile Header: Hamburger Menu Icon Only (No Phone Number or Box) */}
-          <div className="flex sm:hidden items-center">
+          {/* Mobile Header: Call Button immediately to the left of Hamburger Menu */}
+          <div className="flex sm:hidden items-center gap-2">
+            <a
+              href="tel:+19782263863"
+              aria-label="Call Trucking Titan at +1 (978) 226-3863"
+              className="inline-flex items-center justify-center p-2 bg-[#0e0e12] hover:bg-neutral-900 active:bg-black border border-neutral-800 hover:border-neutral-700 text-white rounded-md transition-all duration-150 cursor-pointer shadow-sm btn-subtle-hover"
+            >
+              <Phone className="w-4 h-4 text-red-500 fill-red-500/20 shrink-0" />
+            </a>
+
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded text-neutral-300 hover:text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="p-2 rounded text-neutral-300 hover:text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

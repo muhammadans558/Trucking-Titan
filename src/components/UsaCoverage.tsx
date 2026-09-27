@@ -24,7 +24,7 @@ export const UsaCoverage: React.FC = () => {
             </p>
 
             <div className="mt-8 space-y-4">
-              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5">
+              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5 hover:border-neutral-700 transition-all card-subtle-hover">
                 <Navigation className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-heading font-bold uppercase text-white">
@@ -36,7 +36,7 @@ export const UsaCoverage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5">
+              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5 hover:border-neutral-700 transition-all card-subtle-hover">
                 <Compass className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-heading font-bold uppercase text-white">
@@ -48,7 +48,7 @@ export const UsaCoverage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5">
+              <div className="p-4 bg-[#121217] border border-neutral-800 rounded-sm flex items-start gap-3.5 hover:border-neutral-700 transition-all card-subtle-hover">
                 <Shield className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-heading font-bold uppercase text-white">

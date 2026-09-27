@@ -15,6 +15,7 @@ import { ContactForm } from './components/ContactForm';
 import { FaqSection } from './components/FaqSection';
 import { FinalCta } from './components/FinalCta';
 import { Footer } from './components/Footer';
+import { RevealOnScroll } from './components/RevealOnScroll';
 
 export default function App() {
   const scrollToOnboarding = () => {
@@ -58,50 +59,78 @@ export default function App() {
         />
 
         {/* 2. Carrier Value Proposition */}
-        <ValueProposition />
+        <RevealOnScroll>
+          <ValueProposition />
+        </RevealOnScroll>
 
         {/* 3. Core Dispatch Services */}
-        <Services onSelectServiceCta={scrollToOnboarding} />
+        <RevealOnScroll>
+          <Services onSelectServiceCta={scrollToOnboarding} />
+        </RevealOnScroll>
 
         {/* 4. Load Selection (Beyond Posted Rate & Console) */}
-        <LoadSelection />
+        <RevealOnScroll>
+          <LoadSelection />
+        </RevealOnScroll>
 
         {/* 5. Who We Support (Equipment & Fleet Profiles) */}
-        <WhoWeSupport />
+        <RevealOnScroll>
+          <WhoWeSupport />
+        </RevealOnScroll>
 
         {/* 6. How It Works (4-Step Process) */}
-        <HowItWorks onStartProcess={scrollToOnboarding} />
+        <RevealOnScroll>
+          <HowItWorks onStartProcess={scrollToOnboarding} />
+        </RevealOnScroll>
 
         {/* 7. Carrier Onboarding Form */}
-        <CarrierOnboarding onStartCarrierSetup={scrollToOnboarding} />
+        <RevealOnScroll>
+          <CarrierOnboarding onStartCarrierSetup={scrollToOnboarding} />
+        </RevealOnScroll>
 
         {/* 8. Why Trucking Titan (Core Benefits) */}
-        <WhyTruckingTitan />
+        <RevealOnScroll>
+          <WhyTruckingTitan />
+        </RevealOnScroll>
 
         {/* 9. USA Coverage (Nationwide Scope) */}
-        <UsaCoverage />
+        <RevealOnScroll>
+          <UsaCoverage />
+        </RevealOnScroll>
 
         {/* 10. About Trucking Titan */}
-        <AboutSection />
+        <RevealOnScroll>
+          <AboutSection />
+        </RevealOnScroll>
 
         {/* 11. Carrier Pain Points Comparison */}
-        <PainPointsComparison />
+        <RevealOnScroll>
+          <PainPointsComparison />
+        </RevealOnScroll>
 
         {/* 12. Contact / Lead Hub ("Let's Talk About Your Truck") */}
-        <ContactForm onNavigateToOnboarding={scrollToOnboarding} />
+        <RevealOnScroll>
+          <ContactForm onNavigateToOnboarding={scrollToOnboarding} />
+        </RevealOnScroll>
 
         {/* 13. FAQ Accordion */}
-        <FaqSection />
+        <RevealOnScroll>
+          <FaqSection />
+        </RevealOnScroll>
 
         {/* 14. Final Strong CTA */}
-        <FinalCta
-          onGetStarted={scrollToOnboarding}
-          onContactUs={scrollToContact}
-        />
+        <RevealOnScroll>
+          <FinalCta
+            onGetStarted={scrollToOnboarding}
+            onContactUs={scrollToContact}
+          />
+        </RevealOnScroll>
       </main>
 
       {/* Footer */}
-      <Footer />
+      <RevealOnScroll>
+        <Footer />
+      </RevealOnScroll>
     </div>
   );
 }

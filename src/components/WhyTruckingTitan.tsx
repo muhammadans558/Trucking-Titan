@@ -7,13 +7,14 @@ import {
   FileCheck,
   Headset,
 } from 'lucide-react';
+import { RevealOnScroll } from './RevealOnScroll';
 
 export const WhyTruckingTitan: React.FC = () => {
   const benefits = [
     {
       title: 'Carrier-Focused Service',
       description:
-        'We represent you, the carrier. We work strictly in your operational interest—prioritizing your schedule, lane requirements, and equipment care.',
+        'We represent you, the carrier. We work strictly in your operational interest, prioritizing your schedule, lane requirements, and equipment care.',
       icon: Shield,
     },
     {
@@ -68,25 +69,24 @@ export const WhyTruckingTitan: React.FC = () => {
 
         {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-          {benefits.map((benefit) => {
+          {benefits.map((benefit, idx) => {
             const Icon = benefit.icon;
             return (
-              <div
-                key={benefit.title}
-                className="p-6 sm:p-7 bg-[#121217] border border-neutral-800 rounded-sm hover:border-red-600/70 transition-all duration-200 group"
-              >
-                <div className="w-11 h-11 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all">
-                  <Icon className="w-5 h-5" />
+              <RevealOnScroll key={benefit.title} delay={idx * 70} className="h-full">
+                <div className="p-6 sm:p-7 bg-[#121217] border border-neutral-800 rounded-sm hover:border-red-600/70 transition-all duration-200 group h-full card-subtle-hover flex flex-col justify-start">
+                  <div className="w-11 h-11 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all">
+                    <Icon className="w-5 h-5" />
+                  </div>
+
+                  <h3 className="font-heading text-lg sm:text-xl font-bold uppercase text-white tracking-wide mb-2.5">
+                    {benefit.title}
+                  </h3>
+
+                  <p className="text-sm text-neutral-400 leading-relaxed">
+                    {benefit.description}
+                  </p>
                 </div>
-
-                <h3 className="font-heading text-lg sm:text-xl font-bold uppercase text-white tracking-wide mb-2.5">
-                  {benefit.title}
-                </h3>
-
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  {benefit.description}
-                </p>
-              </div>
+              </RevealOnScroll>
             );
           })}
         </div>
@@ -109,3 +109,4 @@ export const WhyTruckingTitan: React.FC = () => {
     </section>
   );
 };
+

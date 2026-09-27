@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Truck, Search, PhoneCall, CheckCircle } from 'lucide-react';
+import { RevealOnScroll } from './RevealOnScroll';
 
 interface HowItWorksProps {
   onStartProcess: () => void;
@@ -60,37 +61,36 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartProcess }) => {
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
-              <div
-                key={step.num}
-                className="bg-[#121217] border border-neutral-800 p-6 rounded-sm relative flex flex-col justify-between group hover:border-red-600/70 transition-all duration-200"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="font-heading text-3xl font-bold text-red-600">
-                      {step.num}
-                    </span>
-                    <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-neutral-300 group-hover:text-red-400 group-hover:border-red-500/50 transition-colors">
-                      <Icon className="w-5 h-5" />
+              <RevealOnScroll key={step.num} delay={idx * 80} className="h-full">
+                <div className="bg-[#121217] border border-neutral-800 p-6 rounded-sm relative flex flex-col justify-between group hover:border-red-600/70 transition-all duration-200 h-full card-subtle-hover">
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="font-heading text-3xl font-bold text-red-600">
+                        {step.num}
+                      </span>
+                      <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-neutral-300 group-hover:text-red-400 group-hover:border-red-500/50 transition-colors">
+                        <Icon className="w-5 h-5" />
+                      </div>
                     </div>
+
+                    <h3 className="font-heading text-xl font-bold uppercase text-white tracking-wide mb-2">
+                      {step.title}
+                    </h3>
+
+                    <p className="text-sm font-medium text-neutral-200 mb-3">
+                      {step.description}
+                    </p>
+
+                    <p className="text-xs text-neutral-400 leading-relaxed">
+                      {step.detail}
+                    </p>
                   </div>
 
-                  <h3 className="font-heading text-xl font-bold uppercase text-white tracking-wide mb-2">
-                    {step.title}
-                  </h3>
-
-                  <p className="text-sm font-medium text-neutral-200 mb-3">
-                    {step.description}
-                  </p>
-
-                  <p className="text-xs text-neutral-400 leading-relaxed">
-                    {step.detail}
-                  </p>
+                  <div className="mt-6 pt-4 border-t border-neutral-800/80 flex items-center text-xs text-red-500 font-semibold uppercase tracking-wider">
+                    <span>Step {idx + 1} of 4</span>
+                  </div>
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-neutral-800/80 flex items-center text-xs text-red-500 font-semibold uppercase tracking-wider">
-                  <span>Step {idx + 1} of 4</span>
-                </div>
-              </div>
+              </RevealOnScroll>
             );
           })}
         </div>
@@ -99,7 +99,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartProcess }) => {
         <div className="mt-12 text-center">
           <button
             onClick={onStartProcess}
-            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-heading text-base font-bold uppercase tracking-wider px-8 py-3.5 rounded-sm shadow-lg shadow-red-950/40 cursor-pointer transition-colors"
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-heading text-base font-bold uppercase tracking-wider px-8 py-3.5 rounded-sm shadow-lg shadow-red-950/40 cursor-pointer transition-all duration-150 btn-subtle-hover"
           >
             <span>Start Step 01 Today</span>
             <ArrowRight className="w-4 h-4" />
@@ -109,3 +109,4 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartProcess }) => {
     </section>
   );
 };
+

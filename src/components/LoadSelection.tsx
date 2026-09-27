@@ -67,7 +67,7 @@ export const LoadSelection: React.FC = () => {
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-neutral-300 leading-relaxed font-normal">
-            A high posted rate on a load board does not always represent the best operational choice for your truck. A freight run that sends you into a low-volume dead zone, requires excessive deadhead, or involves slow shipper docks can tie up your equipment and waste valuable hours of service. We evaluate every factor carefully as dispatch support—so you make informed hauling decisions.
+            A high posted rate on a load board does not always represent the best operational choice for your truck. A freight run that sends you into a low-volume dead zone, requires excessive deadhead, or involves slow shipper docks can tie up your equipment and waste valuable hours of service. We evaluate every factor carefully as dispatch support so you make informed hauling decisions.
           </p>
           <p className="mt-2 text-xs text-neutral-400 italic">
             * Note: Load evaluation is delivered as professional dispatch assistance; market rates fluctuate and outcomes depend on carrier equipment, seasonal factors, and carrier approval.
@@ -88,7 +88,7 @@ export const LoadSelection: React.FC = () => {
               return (
                 <div
                   key={f.name}
-                  className="p-4 bg-[#121217] border border-neutral-800/90 rounded-sm flex items-start gap-3.5 hover:border-neutral-700 transition-colors"
+                  className="p-4 bg-[#121217] border border-neutral-800/90 rounded-sm flex items-start gap-3.5 hover:border-neutral-700 transition-all card-subtle-hover"
                 >
                   <div className="w-8 h-8 rounded-sm bg-neutral-900 border border-neutral-700 flex items-center justify-center text-red-500 shrink-0 mt-0.5">
                     <Icon className="w-4 h-4" />

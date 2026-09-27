@@ -10,6 +10,7 @@ import {
   RotateCw,
 } from 'lucide-react';
 import { EQUIPMENT_DETAILS } from '../data/truckingData';
+import { RevealOnScroll } from './RevealOnScroll';
 
 export const WhoWeSupport: React.FC = () => {
   const operations = [
@@ -99,68 +100,66 @@ export const WhoWeSupport: React.FC = () => {
 
         {/* Carrier Types (Owner-Operators & Fleets) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 mb-8">
-          {operations.map((op) => {
+          {operations.map((op, idx) => {
             const Icon = op.icon;
             return (
-              <div
-                key={op.title}
-                className="bg-gradient-to-r from-[#121217] to-[#15151b] border-l-4 border-l-red-600 border-y border-r border-neutral-800 p-6 rounded-sm flex items-start gap-4"
-              >
-                <div className="w-12 h-12 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 shrink-0">
-                  <Icon className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-xl font-bold uppercase text-white tracking-wide">
-                    {op.title}
-                  </h3>
-                  <div className="text-xs font-semibold text-red-400 uppercase tracking-wider mb-2">
-                    {op.subtitle}
+              <RevealOnScroll key={op.title} delay={idx * 100} className="h-full">
+                <div className="bg-gradient-to-r from-[#121217] to-[#15151b] border-l-4 border-l-red-600 border-y border-r border-neutral-800 p-6 rounded-sm flex items-start gap-4 h-full hover:border-r-neutral-700 transition-all duration-200">
+                  <div className="w-12 h-12 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 shrink-0">
+                    <Icon className="w-6 h-6" />
                   </div>
-                  <p className="text-sm text-neutral-300 leading-relaxed">
-                    {op.desc}
-                  </p>
+                  <div>
+                    <h3 className="font-heading text-xl font-bold uppercase text-white tracking-wide">
+                      {op.title}
+                    </h3>
+                    <div className="text-xs font-semibold text-red-400 uppercase tracking-wider mb-2">
+                      {op.subtitle}
+                    </div>
+                    <p className="text-sm text-neutral-300 leading-relaxed">
+                      {op.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </RevealOnScroll>
             );
           })}
         </div>
 
         {/* Equipment Grid: Dry Van, Reefer, Flat Bed, Step Deck, Box Truck, Flat Bed Hot Shot, Power Only etc */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6">
-          {equipmentCards.map((item) => {
+          {equipmentCards.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div
-                key={item.title}
-                className="bg-[#121217] border border-neutral-800 hover:border-red-600/70 p-5 sm:p-6 rounded-sm transition-all duration-200 group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3.5">
-                    <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
-                      <Icon className="w-5 h-5" />
+              <RevealOnScroll key={item.title} delay={(idx % 4) * 60} className="h-full">
+                <div className="bg-[#121217] border border-neutral-800 hover:border-red-600/70 p-5 sm:p-6 rounded-sm transition-all duration-200 group flex flex-col justify-between h-full hover:-translate-y-1">
+                  <div>
+                    <div className="flex items-center justify-between mb-3.5">
+                      <div className="w-10 h-10 rounded-sm bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="text-[11px] font-heading font-bold text-neutral-400 tracking-wider uppercase">
+                        Active Dispatch
+                      </span>
                     </div>
-                    <span className="text-[11px] font-heading font-bold text-neutral-400 tracking-wider uppercase">
-                      Active Dispatch
-                    </span>
+
+                    <h3 className="font-heading text-lg font-bold uppercase text-white tracking-wide">
+                      {item.title}
+                    </h3>
+                    <div className="text-xs text-red-400 font-medium mb-2.5">
+                      {item.specs}
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
 
-                  <h3 className="font-heading text-lg font-bold uppercase text-white tracking-wide">
-                    {item.title}
-                  </h3>
-                  <div className="text-xs text-red-400 font-medium mb-2.5">
-                    {item.specs}
+                  <div className="mt-4 pt-3 border-t border-neutral-800/80 text-[11px] font-semibold uppercase text-neutral-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full" />
+                    <span>Nationwide Freight Lanes</span>
                   </div>
-
-                  <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                    {item.desc}
-                  </p>
                 </div>
-
-                <div className="mt-4 pt-3 border-t border-neutral-800/80 text-[11px] font-semibold uppercase text-neutral-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full" />
-                  <span>Nationwide Freight Lanes</span>
-                </div>
-              </div>
+              </RevealOnScroll>
             );
           })}
         </div>

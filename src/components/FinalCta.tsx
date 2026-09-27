@@ -35,7 +35,7 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onGetStarted, onContactUs })
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={onGetStarted}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-heading text-base sm:text-lg font-bold uppercase tracking-wider px-8 py-3.5 rounded-sm shadow-xl shadow-red-950/60 transition-all cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-heading text-base sm:text-lg font-bold uppercase tracking-wider px-8 py-3.5 rounded-sm shadow-xl shadow-red-950/60 transition-all cursor-pointer btn-subtle-hover"
           >
             <span>Get Started</span>
             <ArrowRight className="w-5 h-5" />
@@ -43,7 +43,7 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onGetStarted, onContactUs })
 
           <a
             href={COMPANY_PHONE_TEL}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 hover:border-red-500 font-heading text-base font-semibold uppercase tracking-wider px-7 py-3.5 rounded-sm transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 hover:border-red-500 font-heading text-base font-semibold uppercase tracking-wider px-7 py-3.5 rounded-sm transition-all btn-subtle-hover"
           >
             <Phone className="w-4 h-4 text-red-500" />
             <span>Talk to a Dispatcher</span>

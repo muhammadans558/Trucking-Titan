@@ -384,7 +384,7 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/40 uppercase tracking-wider text-sm"
+                  className="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/40 uppercase tracking-wider text-sm btn-subtle-hover"
                 >
                   {isSubmitting ? (
                     <>
