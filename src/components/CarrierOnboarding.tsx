@@ -78,6 +78,12 @@ export const CarrierOnboarding: React.FC<CarrierOnboardingProps> = ({ onStartCar
       message: formDataState.message.trim(),
     };
 
+    console.log("FORM DATA:", formDataState);
+    console.log("PAYLOAD BEING SENT:", payload);
+    console.log("MC NUMBER:", payload.mcNumber);
+    console.log("DOT NUMBER:", payload.dotNumber);
+    console.log("MESSAGE:", payload.message);
+
     try {
       await fetch(
         'https://script.google.com/macros/s/AKfycbzVF-Uhd7Y6975L2Lu_w-SA5WzUi4W-nPLEgBlfNBvNgPnA8SRfGwEd0xziv69XTKgP/exec',
